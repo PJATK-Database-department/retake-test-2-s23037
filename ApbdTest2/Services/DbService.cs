@@ -55,7 +55,7 @@ namespace ApbdTest2.Services
         }
         public async Task UpdateEndAsync(int id, DateTime time)
         {
-            await _dbContext.Actions.Where(x => x.IdAction == id).Select(b => { b.EndTime = time; };);
+            //await _dbContext.Actions.Where(x => x.IdAction == id).Select(b => { b.EndTime = time; });
         }
         public async Task<bool> HaveActionEndenAsync(int id)
         {

@@ -29,7 +29,7 @@ namespace ApbdTest2.Controllers
         [HttpPost("{idAction}")]
         public async Task<IActionResult> UpdateEnd([FromRoute] int idAction, DateTime time)
         {
-            if (await _dbService.HaveActionEndenAsync(idAction){
+            if (await _dbService.HaveActionEndenAsync(idAction)){
                 return BadRequest("Action has ended already");
             }
             await _dbService.UpdateEndAsync(idAction, time);
