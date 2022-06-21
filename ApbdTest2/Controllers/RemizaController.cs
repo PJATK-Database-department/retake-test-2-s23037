@@ -26,5 +26,14 @@ namespace ApbdTest2.Controllers
             var truck = _dbService.GetTruckAsync(idFireTruck);
             return Ok(truck);
         }
+        [HttpPost("{idAction}")]
+        public async Task<IActionResult> UpdateEnd([FromRoute] int idAction, DateTime time)
+        {
+            if (await _dbService.HaveActionEndenAsync(idAction){
+                return BadRequest("Action has ended already");
+            }
+            await _dbService.UpdateEndAsync(idAction, time);
+            return NoContent();
+        }
     }
 }

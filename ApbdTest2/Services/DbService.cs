@@ -29,7 +29,7 @@ namespace ApbdTest2.Services
                 {
                     StartTime = x.IdActionNavigation.StartTime,
                     EndTime = (DateTime)x.IdActionNavigation.EndTime,
-                    NumOfFirefighter = 0,
+                    NumOfFirefighter = x.IdActionNavigation.FirefighterActions.Where(y => y.IdAction == x.IdAction).Count(),
                     AssignmentDate = x.AssignmentDate,
                 }
                 ).ToListAsync();
@@ -41,8 +41,8 @@ namespace ApbdTest2.Services
         }
         public async Task<FireTruckDTO> GetTruckAsync(int id)
         {
-            var truck = await _dbContext.FireTrucks.FirstAsync(x => x.IdFireTruck == id);
-            var list = await GetTruckActionsAsync(id);
+            var truck = await _dbContext.FireTrucks.FirstOrDefaultAsync(x => x.IdFireTruck == id);
+            var list = new List<ActionDTO>();
             return new FireTruckDTO
             {
                 IdFireTruck = truck.IdFireTruck,
@@ -52,6 +52,14 @@ namespace ApbdTest2.Services
             };
                 
                 
+        }
+        public async Task UpdateEndAsync(int id, DateTime time)
+        {
+            await _dbContext.Actions.Where(x => x.IdAction == id).Select(b => { b.EndTime = time; };);
+        }
+        public async Task<bool> HaveActionEndenAsync(int id)
+        {
+            return await _dbContext.Actions.AnyAsync(x => x.IdAction == id && x.EndTime == null);
         }
     }
 }
